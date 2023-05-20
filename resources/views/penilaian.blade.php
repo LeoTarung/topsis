@@ -1,14 +1,7 @@
 @extends('main')
 @section('container')
     <!-- Page Content  -->
-    <div id="content" class="p-4 p-md-5 pt-5">
-        <div class="container-fluid border-bottom">
-            <div class="row">
-                <div class="col-6">
-                    <h2 class=" d-flex justify-content-start">Penilaian</h4>
-                </div>
-            </div>
-        </div>
+ 
 
         <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">

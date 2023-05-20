@@ -100,7 +100,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($a = 0; $a < $alternatifCount; $a++)
+                            @for ($a = 0; $a < $dataCount; $a++)
                                 <tr>
                                     <td>{{ $alternatif[$a] }}</td>
                                     @for ($b = 0; $b < $kriteriaCount; $b++)
@@ -129,7 +129,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($a = 0; $a < $alternatifCount; $a++)
+                            @for ($a = 0; $a < $dataCount; $a++)
                                 <tr>
                                     <td>{{ $alternatif[$a] }}</td>
                                     <td>{{ $dataQi[$a] }}</td>

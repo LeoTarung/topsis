@@ -20,7 +20,7 @@ class PenilaianController extends Controller
         foreach ($alt as $key) {
             $alternatif[] = $key;
         }
-        // dd($alt);
+        // dd($alternatif);
         $subKriteria = subKriteriaModel::all();
         $penilaian = PenilaianModel::all();
 
@@ -48,7 +48,7 @@ class PenilaianController extends Controller
             ${'alternatif' . $i} =  $alternatif[$i];
             $alternatifKode[] =  ${'alternatif' . $i}->kode_alternatif;
         }
-
+        // dd($alternatifJenis);
         // foreach ($penilaian as $key) {
         //     $test[] = $key->nilai;
         //     # code...
@@ -162,29 +162,38 @@ class PenilaianController extends Controller
 
         // NORMALISASI
         for ($j = 1; $j <= $alternatifCount; $j++) {
+            // dd(collect($penilaian->where('kode_alternatif', 'A' . 2)->all()));
+
+
             $first = collect($penilaian->where('kode_alternatif', 'A' . $j)->all());
-            for ($i = 1; $i <= $kriteriaCount; $i++) {
-                $seleksi = $kriteria->where('kode_kriteria', 'C' . $i)->first();
-                ${'C' . $i . '_' . $j} = $penilaian->where('kode_kriteria', 'C' . $i)->first();
-                ${'x' .  $i . '_' . $j} = $first->where('kode_kriteria', 'C' . $i)->first();
-                if ($seleksi->keterangan == 'BENEFIT') {
-                    ${'dataNormal' . $j}[] = ${'x' .  $i . '_' . $j}->nilai /  $penilaian->where('kode_kriteria', 'C' . $i)->max('nilai');
-                    // ${'data' . $j}[] = ${'dataNormal' . $i};
-                    // dd(${'C' . $i . '_' . $j}->min('nilai'));
-                } else {
-                    ${'dataNormal' . $j}[] = ${'C' . $i . '_' . $j}->min('nilai') / ${'x' .  $i . '_' . $j}->nilai;
+            if ($first->first() != null) {
+                for ($i = 1; $i <= $kriteriaCount; $i++) {
+                    $seleksi = $kriteria->where('kode_kriteria', 'C' . $i)->first();
+                    ${'C' . $i . '_' . $j} = $penilaian->where('kode_kriteria', 'C' . $i)->first();
+                    ${'x' .  $i . '_' . $j} = $first->where('kode_kriteria', 'C' . $i)->first();
+                    if ($seleksi->keterangan == 'BENEFIT') {
+                        ${'dataNormal' . $j}[] = ${'x' .  $i . '_' . $j}->nilai /  $penilaian->where('kode_kriteria', 'C' . $i)->max('nilai');
+                        // ${'data' . $j}[] = ${'dataNormal' . $i};
+                        // dd(${'C' . $i . '_' . $j}->min('nilai'));
+                    } else {
+                        ${'dataNormal' . $j}[] = ${'C' . $i . '_' . $j}->min('nilai') / ${'x' .  $i . '_' . $j}->nilai;
+                    }
                 }
+            } else {
+                ${'dataNormal' . $j} = null;
             }
         }
 
         for ($j = 1; $j <= $alternatifCount; $j++) {
-            $data[] =  ${'dataNormal' . $j};
-            // dd($j);
+            if (${'dataNormal' . $j} != null) {
+                $data[] =  ${'dataNormal' . $j};
+            } else {
+            }
         }
-
+        // dd(count($data));
         // Mencari Nilai Qi
-        // dd($data);
-        for ($j = 1; $j <= $alternatifCount; $j++) {
+        // dd($alternatifCount);
+        for ($j = 1; $j <= count($data); $j++) {
             for ($i = 1; $i <= $kriteriaCount; $i++) {
                 ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
 
@@ -204,7 +213,7 @@ class PenilaianController extends Controller
         }
 
 
-        for ($j = 1; $j <= $alternatifCount; $j++) {
+        for ($j = 1; $j <= count($data); $j++) {
             $dataQi[] =  ${'Q' . $j};
         }
 
@@ -216,6 +225,7 @@ class PenilaianController extends Controller
             'penilaian' => $penilaian,
             'data' => $data,
             'dataQi' => $dataQi,
+            'dataCount' => count($data),
 
             'alternatif' => $alternatifJenis,
             'alternatifCount' => $alternatifCount,
