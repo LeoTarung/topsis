@@ -29,8 +29,8 @@
                         @foreach ($NilaiQi as $key)
                             <tr>
                                 <td class="text-center"><?= $no ?></td>
-                                <td>{{ $key['alternatif']['nama_guru'] }}</td>
-                                <td>{{ $key['nilai_qi'] }}</td>
+                                <td>{{ $key['alternatif']['nama_vendor'] }}</td>
+                                <td>{{ number_format($key['nilai_qi'], 3) }}</td>
                             </tr>
                             <?php $no++; ?>
                         @endforeach

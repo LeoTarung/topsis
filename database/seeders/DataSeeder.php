@@ -53,52 +53,52 @@ class DataSeeder extends Seeder
         $alternatif = [
             [
                 'kode_alternatif' => 'A1',
-                'nama_guru' => 'ALI, S.Pd',
+                'nama_vendor' => 'ALI, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A2',
-                'nama_guru' => 'FAUJI, S.Pd.I',
+                'nama_vendor' => 'FAUJI, S.Pd.I',
 
             ],
             [
                 'kode_alternatif' => 'A3',
-                'nama_guru' => 'MAISAROH, S.Pd',
+                'nama_vendor' => 'MAISAROH, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A4',
-                'nama_guru' => 'SARIPAH, M.S.Pd',
+                'nama_vendor' => 'SARIPAH, M.S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A5',
-                'nama_guru' => 'FITRIA SARI, S.Pd',
+                'nama_vendor' => 'FITRIA SARI, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A6',
-                'nama_guru' => 'HERMAWAN, S.Pd',
+                'nama_vendor' => 'HERMAWAN, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A7',
-                'nama_guru' => 'ROMLAH, S.Pd',
+                'nama_vendor' => 'ROMLAH, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A8',
-                'nama_guru' => 'HAROPIH, S.Pd',
+                'nama_vendor' => 'HAROPIH, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A9',
-                'nama_guru' => 'AMRUN, S.Pd',
+                'nama_vendor' => 'AMRUN, S.Pd',
 
             ],
             [
                 'kode_alternatif' => 'A10',
-                'nama_guru' => 'UUN PUNITA, S.Pd',
+                'nama_vendor' => 'UUN PUNITA, S.Pd',
 
             ],
         ];

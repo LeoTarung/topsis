@@ -64,7 +64,8 @@ class KriteriaController extends Controller
         subKriteriaModel::create([
             'cat_kriteria' => $request->{'cat_kriteria' . $i},
             'nilai' => $request->nilai,
-            'keterangan' => $request->keterangan
+            'range' => $request->range,
+            'kategori' => $request->kategori
         ]);
         return redirect("/subKriteria");
     }
@@ -77,7 +78,7 @@ class KriteriaController extends Controller
 
     public function updateKriteria(Request $request)
     {
-
+        // dd($request->bobot);
         $kriteria = $request->kode_kriteria;
         KriteriaModel::where('kode_kriteria', $kriteria)
             ->update([

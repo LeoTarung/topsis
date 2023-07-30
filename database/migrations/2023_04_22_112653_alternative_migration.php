@@ -16,7 +16,7 @@ class AlternativeMigration extends Migration
         Schema::create('alternatif', function (Blueprint $table) {
             // $table->id();
             $table->string('kode_alternatif')->primary();
-            $table->string('nama_guru');
+            $table->string('nama_vendor');
             $table->timestamps();
         });
     }

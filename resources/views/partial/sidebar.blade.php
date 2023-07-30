@@ -6,9 +6,14 @@
         </button>
     </div>
     <div class="p-4">
-        <h1><a href="index.html" class="logo">WASPAS <span>Algoritma WASPAS</span></a></h1>
+        <div class="card d-flex justify-content-center" style="padding-left: 35px;">
+            <h1 class="m-2 " style="margin-left: 25%;"><a href="/" class="logo"> <img src="/img/logo.png"
+                        alt="" style="width: 75%;"><span>Sistem
+                        Pemilihan</span></a></h1>
+        </div>
+
         <ul class="list-unstyled components mb-5">
-            <li class="active">
+            <li>
                 <a href="/"><span class="fa fa-home mr-3"></span> Home</a>
             </li>
             <li>
@@ -24,7 +29,7 @@
                 <a href="/penilaian"><span class="fa fa-sticky-note mr-3"></span>Penilaian</a>
             </li>
             <li>
-                <a href="/perhitungan"><span class="fa fa-suitcase mr-3"></span>Perhitungan WASPAS</a>
+                <a href="/perhitungan"><span class="fa fa-suitcase mr-3"></span>Perhitungan SAW</a>
             </li>
             <li>
                 <a href="/hasil"><span class="fa fa-cogs mr-3"></span>Hasil</a>

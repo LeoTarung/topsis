@@ -86,7 +86,7 @@
         <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-primary" style="color:wheat">
-                    <i class="fa fa-users"></i></i>NORMALISASI
+                    <i class="fa fa-users"></i> NORMALISASI
                 </div>
                 <div class="table-responsive">
 
@@ -104,7 +104,7 @@
                                 <tr>
                                     <td>{{ $alternatif[$a] }}</td>
                                     @for ($b = 0; $b < $kriteriaCount; $b++)
-                                        <td>{{ $data[$a][$b] }}</td>
+                                        <td>{{ number_format($data[$a][$b], 2) }}</td>
                                     @endfor
 
                                 </tr>
@@ -114,7 +114,41 @@
                 </div>
             </div>
         </div>
+
         <div class="container-fluid d-flex justify-content-center mt-3">
+            <div class="card shadow-sm w-100">
+                <div class="card-header bg-primary" style="color:wheat">
+                    <i class="fa fa-users"></i> PERANKINGAN
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table m-2 ">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Nama</th>
+                                @for ($k = 0; $k < $kriteriaCount; $k++)
+                                    <th class="text-center" scope="col">{{ $kriteria[$k] }}</th>
+                                @endfor
+                                <th class="text-center">Total Hasil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for ($a = 0; $a < $dataCount; $a++)
+                                <tr>
+                                    <td>{{ $alternatif[$a] }}</td>
+                                    @for ($b = 0; $b < $kriteriaCount; $b++)
+                                        <td class="text-center">{{ number_format($rank[$a][$b], 2) }}</td>
+                                    @endfor
+                                    <td class="text-center">{{ number_format($hasil[$a], 2) }}</td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{-- <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-primary" style="color:wheat">
                     <i class="fa fa-users"></i></i>NILAI Qi
@@ -139,7 +173,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 

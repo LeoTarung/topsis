@@ -33,7 +33,8 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col" class="text-center">Nama Sub Kriteria</th>
+                                    <th scope="col" class="text-center">Range</th>
+                                    <th scope="col" class="text-center">Kategori</th>
                                     <th scope="col">Nilai</th>
                                     <th scope="col"> Action</th>
                                 </tr>
@@ -43,7 +44,8 @@
                                 @foreach (${'sub' . ($i + 1)} as $key)
                                     <tr>
                                         <td scope="col"><?= $no ?></td>
-                                        <td scope="col" class="text-center">{{ $key->keterangan }}</td>
+                                        <td scope="col" class="text-center">{{ $key->range }}</td>
+                                        <td scope="col" class="text-center">{{ $key->kategori }}</td>
                                         <td scope="col">{{ $key->nilai }}</td>
                                         <td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
                                                 onclick="edit('{{ $key->id }}')">Edit</button>
@@ -80,9 +82,16 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                     <div class="form-floating">
-                                        <label for="keterangan" class="w-100">NAMA SUB KRITERIA</label>
+                                        <label for="range" class="w-100">Range</label>
                                         <input type="text" class="w-100 w-100   rounded border-primary fw-bold"
-                                            id="keterangan" name="keterangan" required>
+                                            id="range" name="range" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 mb-3">
+                                    <div class="form-floating">
+                                        <label for="kategori" class="w-100">Kategori</label>
+                                        <input type="text" class="w-100 w-100   rounded border-primary fw-bold"
+                                            id="kategori" name="kategori" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-12 mb-3">

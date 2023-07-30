@@ -27,7 +27,7 @@ class PenilaianController extends Controller
         // dd($subrelation);
         $kriteriaCount = KriteriaModel::count();
         $alternatifCount = AlternatifModel::count();
-
+        // dd($subKriteria);
 
         for ($i = 0; $i < $kriteriaCount; $i++) {
             ${'kriteria' . $i} = $kriteria->get($i);
@@ -41,7 +41,7 @@ class PenilaianController extends Controller
 
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
-            $alternatifJenis[] =  ${'alternatif' . $i}->nama_guru;
+            $alternatifJenis[] =  ${'alternatif' . $i}->nama_vendor;
         }
 
         for ($i = 0; $i < $alternatifCount; $i++) {
@@ -75,7 +75,7 @@ class PenilaianController extends Controller
         // dd($nilai->nilai);
 
         for ($i = 1; $i <=  $kriteriaCount = KriteriaModel::count(); $i++) {
-            ${'nilai' . $i} = subKriteriaModel::where('keterangan', $request->{'kriteria' . $i})->first();
+            ${'nilai' . $i} = subKriteriaModel::where('range', $request->{'kriteria' . $i})->first();
             PenilaianModel::create([
                 'kode_alternatif' => $request->kode_alternatif,
                 'kode_kriteria' => 'C' . $i,
@@ -148,13 +148,13 @@ class PenilaianController extends Controller
             $kriteriaKode[] =  ${'kriteria' . $i}->kode_kriteria;
         }
 
-        // GET NAMA GURU
+        // GET NAMA VENDOR
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
-            $alternatifJenis[] =  ${'alternatif' . $i}->nama_guru;
+            $alternatifJenis[] =  ${'alternatif' . $i}->nama_vendor;
         }
 
-        // GET KODE GURU
+        // GET KODE VENDOR
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
             $alternatifKode[] =  ${'alternatif' . $i}->kode_alternatif;
@@ -190,31 +190,56 @@ class PenilaianController extends Controller
             } else {
             }
         }
-        // dd(count($data));
+        // dd($data);
         // Mencari Nilai Qi
         // dd($alternatifCount);
+
+        //------------- [ Khusus untuk Waspas, klo gk kepake apus aja ya ]-----------------//
+        // for ($j = 1; $j <= count($data); $j++) {
+        //     for ($i = 1; $i <= $kriteriaCount; $i++) {
+        //         ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
+
+        //         ${'timesQ' .  $i . '_' . $j} =  ${'bobot' .  $i . '_' . $j}->bobot * $data[$j - 1][$i - 1];
+
+        //         ${'powQ' .  $i . '_' . $j} =  pow($data[$j - 1][$i - 1], ${'bobot' .  $i . '_' . $j}->bobot);
+        //     }
+
+
+        //     ${'times2Q' . $j} =  ${'timesQ' . 1 . '_' . $j};
+        //     ${'pow2Q' . $j} =  ${'powQ' . 1 . '_' . $j};
+        //     for ($k = 2; $k <= $kriteriaCount; $k++) {
+        //         ${'times2Q' . $j} =   ${'times2Q' . $j} + ${'timesQ' .  $k . '_' . $j};
+        //         ${'pow2Q' . $j} =   ${'pow2Q' . $j} * ${'powQ' .  $k . '_' . $j};
+        //     }
+        //     ${'Q' . $j} = (${'times2Q' . $j} * 0.5) + (${'pow2Q' . $j} * 0.5);
+        // }
+
+
+        // for ($j = 1; $j <= count($data); $j++) {
+        //     $dataQi[] =  ${'Q' . $j};
+        // }
+
+        // dd($dataQi);
+        //------------- []-----------------//
+
+        //------------- [Perhitungan akhir Bobot dikalikan dengan hasil normalisasi masing-masing ]-----------------//
         for ($j = 1; $j <= count($data); $j++) {
+            ${'hasilRank' . $j} = 0;
             for ($i = 1; $i <= $kriteriaCount; $i++) {
                 ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
 
                 ${'timesQ' .  $i . '_' . $j} =  ${'bobot' .  $i . '_' . $j}->bobot * $data[$j - 1][$i - 1];
-
-                ${'powQ' .  $i . '_' . $j} =  pow($data[$j - 1][$i - 1], ${'bobot' .  $i . '_' . $j}->bobot);
+                ${'dataRank' . $j}[] =   ${'timesQ' .  $i . '_' . $j};
+                ${'hasilRank' . $j} =  ${'hasilRank' . $j} +  ${'timesQ' .  $i . '_' . $j};
             }
-
-
-            ${'times2Q' . $j} =  ${'timesQ' . 1 . '_' . $j};
-            ${'pow2Q' . $j} =  ${'powQ' . 1 . '_' . $j};
-            for ($k = 2; $k <= $kriteriaCount; $k++) {
-                ${'times2Q' . $j} =   ${'times2Q' . $j} + ${'timesQ' .  $k . '_' . $j};
-                ${'pow2Q' . $j} =   ${'pow2Q' . $j} * ${'powQ' .  $k . '_' . $j};
-            }
-            ${'Q' . $j} = (${'times2Q' . $j} * 0.5) + (${'pow2Q' . $j} * 0.5);
         }
 
-
-        for ($j = 1; $j <= count($data); $j++) {
-            $dataQi[] =  ${'Q' . $j};
+        for ($j = 1; $j <= $alternatifCount; $j++) {
+            if (${'dataNormal' . $j} != null) {
+                $rank[] = ${'dataRank' . $j};
+                $hasil[] = ${'hasilRank' . $j};
+            } else {
+            }
         }
 
 
@@ -224,9 +249,10 @@ class PenilaianController extends Controller
             'kriteriaKode' => $kriteriaKode,
             'penilaian' => $penilaian,
             'data' => $data,
-            'dataQi' => $dataQi,
+            'hasil' => $hasil,
+            // 'dataQi' => $dataQi,
             'dataCount' => count($data),
-
+            'rank' => $rank,
             'alternatif' => $alternatifJenis,
             'alternatifCount' => $alternatifCount,
             'alternatifKode' => $alternatifKode,
@@ -265,7 +291,7 @@ class PenilaianController extends Controller
         // GET NAMA GURU
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
-            $alternatifJenis[] =  ${'alternatif' . $i}->nama_guru;
+            $alternatifJenis[] =  ${'alternatif' . $i}->nama_vendor;
         }
 
         // GET KODE GURU
@@ -299,37 +325,57 @@ class PenilaianController extends Controller
 
         // Mencari Nilai Qi
         // dd($data);
-        for ($j = 1; $j <= $alternatifCount; $j++) {
+        // for ($j = 1; $j <= $alternatifCount; $j++) {
+        //     for ($i = 1; $i <= $kriteriaCount; $i++) {
+
+        //         ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
+
+        //         ${'timesQ' .  $i . '_' . $j} =  ${'bobot' .  $i . '_' . $j}->bobot * $data[$j - 1][$i - 1];
+
+        //         ${'powQ' .  $i . '_' . $j} =  pow($data[$j - 1][$i - 1], ${'bobot' .  $i . '_' . $j}->bobot);
+        //     }
+
+
+        //     ${'times2Q' . $j} =  ${'timesQ' . 1 . '_' . $j};
+        //     ${'pow2Q' . $j} =  ${'powQ' . 1 . '_' . $j};
+        //     for ($k = 2; $k <= $kriteriaCount; $k++) {
+        //         ${'times2Q' . $j} =   ${'times2Q' . $j} + ${'timesQ' .  $k . '_' . $j};
+        //         ${'pow2Q' . $j} =   ${'pow2Q' . $j} * ${'powQ' .  $k . '_' . $j};
+        //     }
+        //     ${'Q' . $j} = (${'times2Q' . $j} * 0.5) + (${'pow2Q' . $j} * 0.5);
+        // }
+
+
+        // for ($j = 1; $j <= $alternatifCount; $j++) {
+        //     $dataQi[] =  ${'Q' . $j};
+        // }
+
+        //------------- [Perhitungan akhir Bobot dikalikan dengan hasil normalisasi masing-masing ]-----------------//
+        for ($j = 1; $j <= count($data); $j++) {
+            ${'hasilRank' . $j} = 0;
             for ($i = 1; $i <= $kriteriaCount; $i++) {
                 ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
 
                 ${'timesQ' .  $i . '_' . $j} =  ${'bobot' .  $i . '_' . $j}->bobot * $data[$j - 1][$i - 1];
-
-                ${'powQ' .  $i . '_' . $j} =  pow($data[$j - 1][$i - 1], ${'bobot' .  $i . '_' . $j}->bobot);
+                ${'dataRank' . $j}[] =   ${'timesQ' .  $i . '_' . $j};
+                ${'hasilRank' . $j} =  ${'hasilRank' . $j} +  ${'timesQ' .  $i . '_' . $j};
             }
-
-
-            ${'times2Q' . $j} =  ${'timesQ' . 1 . '_' . $j};
-            ${'pow2Q' . $j} =  ${'powQ' . 1 . '_' . $j};
-            for ($k = 2; $k <= $kriteriaCount; $k++) {
-                ${'times2Q' . $j} =   ${'times2Q' . $j} + ${'timesQ' .  $k . '_' . $j};
-                ${'pow2Q' . $j} =   ${'pow2Q' . $j} * ${'powQ' .  $k . '_' . $j};
-            }
-            ${'Q' . $j} = (${'times2Q' . $j} * 0.5) + (${'pow2Q' . $j} * 0.5);
         }
-
 
         for ($j = 1; $j <= $alternatifCount; $j++) {
-            $dataQi[] =  ${'Q' . $j};
+            if (${'dataNormal' . $j} != null) {
+                $rank[] = ${'dataRank' . $j};
+                $hasil[] = ${'hasilRank' . $j};
+            } else {
+            }
         }
-
         // $nilaiqi = nilaiQiModel::first();
         // dd($nilaiqi);
         if (nilaiQiModel::first() == null) {
             for ($j = 1; $j <= $alternatifCount; $j++) {
                 nilaiQiModel::create([
                     'kode_alternatif' => 'A' . $j,
-                    'nilai_qi' => $dataQi[$j - 1]
+                    'nilai_qi' => $hasil[$j - 1]
                 ]);
             }
         } else {
@@ -338,7 +384,7 @@ class PenilaianController extends Controller
                 // dd($edit);
                 $edit->update([
                     'kode_alternatif' => 'A' . $j,
-                    'nilai_qi' => $dataQi[$j - 1]
+                    'nilai_qi' => $hasil[$j - 1]
                 ]);
             }
             // dd($edit);

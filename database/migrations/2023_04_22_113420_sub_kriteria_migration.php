@@ -19,7 +19,8 @@ class SubKriteriaMigration extends Migration
             // $table->string('id_penyakit');
             $table->foreign('cat_kriteria')->references('kode_kriteria')->on('kriteria')->onDelete('cascade');
             $table->integer('nilai');
-            $table->string('keterangan');
+            $table->string('range');
+            $table->string('kategori');
             $table->timestamps();
         });
     }

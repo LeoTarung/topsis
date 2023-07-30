@@ -26,7 +26,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Kode Alternatif</th>
-                                <th scope="col">Nama Guru</th>
+                                <th scope="col">Nama Vendor</th>
                                 <th scope="col"> Action</th>
                             </tr>
                         </thead>
@@ -36,7 +36,7 @@
                                 <tr>
                                     <th scope="row"><?= $no ?></th>
                                     <td>{{ $a->kode_alternatif }}</td>
-                                    <td>{{ $a->nama_guru }}</td>
+                                    <td>{{ $a->nama_vendor }}</td>
                                     <td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
                                             onclick="edit('{{ $a->kode_alternatif }}')">Edit</button>
                                         <button class="btn btn-danger"
@@ -77,9 +77,9 @@
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="nama_guru " class="w-100">NAMA GURU</label>
-                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="nama_guru"
-                                        name="nama_guru" required>
+                                    <label for="nama_vendor " class="w-100">NAMA VENDOR</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="nama_vendor"
+                                        name="nama_vendor" required>
                                 </div>
                             </div>
                         </div>
@@ -118,9 +118,9 @@
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="nama_guru " class="w-100">NAMA GURU</label>
+                                    <label for="nama_vendor " class="w-100">NAMA VENDOR</label>
                                     <input type="text" class=" w-100    rounded border-primary fw-bold"
-                                        id="nama_guru_edit" name="nama_guru" required>
+                                        id="nama_vendor_edit" name="nama_vendor" required>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                     let kodeEdit = document.getElementById('kode_alternatif_edit');
                     kodeEdit.value = kode;
                     console.log(data);
-                    $("#nama_guru_edit").val((data.nama_guru));
+                    $("#nama_vendor_edit").val((data.nama_vendor));
                 }
             })
         }

@@ -1,52 +1,52 @@
 @extends('main')
 @section('container')
     <!-- Page Content  -->
- 
-
-        <div class="container-fluid d-flex justify-content-center mt-3">
-            <div class="card shadow-sm w-100">
-                <div class="card-header bg-primary" style="color:wheat">
-                    <i class="fa fa-users"></i></i> Data Penilaian
-                </div>
-                <div class="table-responsive">
-
-                    <table class="table m-2 ">
-                        <thead class="table-primary">
-                            <tr>
-                                <th scope="col">Nama</th>
-                                @for ($k = 0; $k < $kriteriaCount; $k++)
-                                    <th scope="col">{{ $kriteria[$k] }}</th>
-                                @endfor
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for ($a = 0; $a < $alternatifCount; $a++)
-                                <tr>
-                                    <td>{{ $alternatif[$a] }}</td>
 
 
-                                    @if ($penilaian->where('kode_alternatif', $alternatifKode[$a])->first() != null)
-                                        @foreach ($penilaian->where('kode_alternatif', $alternatifKode[$a]) as $p)
-                                            <td>{{ $p->nilai }}</td>
-                                            {{-- @endfor --}}
-                                        @endforeach
-                                        <td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
-                                                onclick="edit('{{ $alternatifKode[$a] }}')">Edit</button></td>
-                                    @else
-                                        @for ($b = 1; $b <= $kriteriaCount; $b++)
-                                            <td></td>
-                                        @endfor
-                                        <td> <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambah"
-                                                onclick="tambah('{{ $alternatifKode[$a] }}')">Input</button></td>
-                                    @endif
-                                </tr>
+    <div class="container-fluid d-flex justify-content-center mt-3">
+        <div class="card shadow-sm w-100">
+            <div class="card-header bg-primary" style="color:wheat">
+                <i class="fa fa-users"></i></i> Data Penilaian
+            </div>
+            <div class="table-responsive">
+
+                <table class="table m-2 ">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">Nama</th>
+                            @for ($k = 0; $k < $kriteriaCount; $k++)
+                                <th scope="col">{{ $kriteria[$k] }}</th>
                             @endfor
-                        </tbody>
-                    </table>
-                </div>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for ($a = 0; $a < $alternatifCount; $a++)
+                            <tr>
+                                <td>{{ $alternatif[$a] }}</td>
+
+
+                                @if ($penilaian->where('kode_alternatif', $alternatifKode[$a])->first() != null)
+                                    @foreach ($penilaian->where('kode_alternatif', $alternatifKode[$a]) as $p)
+                                        <td>{{ $p->nilai }}</td>
+                                        {{-- @endfor --}}
+                                    @endforeach
+                                    <td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
+                                            onclick="edit('{{ $alternatifKode[$a] }}')">Edit</button></td>
+                                @else
+                                    @for ($b = 1; $b <= $kriteriaCount; $b++)
+                                        <td></td>
+                                    @endfor
+                                    <td> <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambah"
+                                            onclick="tambah('{{ $alternatifKode[$a] }}')">Input</button></td>
+                                @endif
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
     </div>
 
     {{-- Modal Edit kriteria --}}
@@ -78,7 +78,7 @@
                                             name="kriteriaEdit{{ $k + 1 }}">
                                             <option selected id="option{{ $k }}"></option>
                                             @foreach ($subKriteria->where('cat_kriteria', 'C' . ($k + 1)) as $key)
-                                                <option value="{{ $key->keterangan }}">{{ $key->keterangan }}</option>
+                                                <option value="{{ $key->range }}">{{ $key->range }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -126,8 +126,7 @@
                                             id="{{ $kriteria[$k] }}" name="kriteria{{ $k + 1 }}">
                                             <option selected>-- Pilih --</option>
                                             @foreach ($subKriteria->where('cat_kriteria', 'C' . ($k + 1)) as $key)
-                                                <option value="{{ $key->keterangan }}">
-                                                    {{ $key->keterangan }}</option>
+                                                <option value="{{ $key->range }}">{{ $key->range }}</option>
                                             @endforeach
                                         </select>
                                     </div>

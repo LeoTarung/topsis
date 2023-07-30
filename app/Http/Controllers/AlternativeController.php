@@ -21,7 +21,7 @@ class AlternativeController extends Controller
         // dd($x);
         AlternatifModel::create([
             'kode_Alternatif' => $x,
-            'nama_guru' => $request->nama_guru
+            'nama_vendor' => $request->nama_vendor
         ]);
         return redirect("/alternatif");
     }
@@ -38,7 +38,7 @@ class AlternativeController extends Controller
         $alternatif = $request->kode_alternatif;
         AlternatifModel::where('kode_alternatif', $alternatif)
             ->update([
-                'nama_guru' => $request->nama_guru
+                'nama_vendor' => $request->nama_vendor
             ]);
 
         return Redirect("/alternatif");
