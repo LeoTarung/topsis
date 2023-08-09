@@ -1,4 +1,4 @@
-<nav id="sidebar">
+{{-- <nav id="sidebar">
     <div class="custom-menu">
         <button type="button" id="sidebarCollapse" class="btn btn-primary">
             <i class="fa fa-bars"></i>
@@ -48,4 +48,26 @@
         </div>
 
     </div>
-</nav>
+</nav> --}}
+
+<div class="">
+    <h1><a href="index.html" class="logo">Kenitic <span>Blog Agency</span></a></h1>
+    <ul class="list-unstyled components mb-5">
+        <li class="active">
+            <a href="/kriteria"><span class="fa fa-home mr-3"></span> Kriteria</a>
+        </li>
+        <li>
+            <a href="/alternatif"><span class="fa fa-user mr-3"></span> Alternatif</a>
+        </li>
+        <li>
+            <a href="#"><span class="fa fa-sticky-note mr-3"></span> Perhitungan</a>
+        </li>
+        <li>
+            <a href="#"><span class="fa fa-cogs mr-3"></span> Services</a>
+        </li>
+        <li>
+            <a href="#"><span class="fa fa-paper-plane mr-3"></span> Contacts</a>
+        </li>
+    </ul>
+
+</div>

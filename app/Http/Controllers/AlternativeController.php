@@ -4,14 +4,77 @@ namespace App\Http\Controllers;
 
 use App\Models\AlternatifModel;
 use Illuminate\Http\Request;
+use App\Models\KriteriaModel;
+use App\Models\PenilaianModel;
 
 class AlternativeController extends Controller
 {
     public function index()
     {
         $data = AlternatifModel::all();
+        $kriteria = KriteriaModel::all();
+
+        if ($kriteria->first() == null) {
+            return redirect()->route('kriteria',  ['kriteria' => $data]);
+        }
+        if ($data->first() == null) {
+            // dd($data); 
+            $alternatifKode = 0;
+            $alternatifJenis = 0;
+            $alternatifCount = 0;
+            $kriteriaCount = KriteriaModel::count();
+            for ($i = 0; $i < $kriteriaCount; $i++) {
+                ${'kriteria' . $i} = $kriteria->get($i);
+                $kriteriaJenis[] =  ${'kriteria' . $i}->jenis_kriteria;
+            }
+
+            for ($i = 0; $i < $kriteriaCount; $i++) {
+                ${'kriteria' . $i} = $kriteria->get($i);
+                $kriteriaKode[] =  ${'kriteria' . $i}->kode_kriteria;
+            }
+            $penilaian = PenilaianModel::all();
+        } else {
+            $alt = AlternatifModel::all()->sortBy('urutan');
+            foreach ($alt as $key) {
+                $alternatif[] = $key;
+            }
+            // dd($subrelation);
+            $kriteriaCount = KriteriaModel::count();
+            $alternatifCount = AlternatifModel::count();
+            // dd($subKriteria);
+
+            for ($i = 0; $i < $kriteriaCount; $i++) {
+                ${'kriteria' . $i} = $kriteria->get($i);
+                $kriteriaJenis[] =  ${'kriteria' . $i}->jenis_kriteria;
+            }
+
+            for ($i = 0; $i < $kriteriaCount; $i++) {
+                ${'kriteria' . $i} = $kriteria->get($i);
+                $kriteriaKode[] =  ${'kriteria' . $i}->kode_kriteria;
+            }
+
+            for ($i = 0; $i < $alternatifCount; $i++) {
+                ${'alternatif' . $i} = $alternatif[$i];
+                $alternatifJenis[] =  ${'alternatif' . $i}->nama;
+            }
+
+            for ($i = 0; $i < $alternatifCount; $i++) {
+                ${'alternatif' . $i} =  $alternatif[$i];
+                $alternatifKode[] =  ${'alternatif' . $i}->kode_alternatif;
+            }
+
+            $penilaian = PenilaianModel::all();
+        }
+
         return view('alternatif', [
-            'alternatif' => $data
+            'data' => $data,
+            'kriteria' => $kriteriaJenis,
+            'kriteriaCount' => $kriteriaCount,
+            'kriteriaKode' => $kriteriaKode,
+            'alternatif' => $alternatifJenis,
+            'alternatifCount' => $alternatifCount,
+            'alternatifKode' => $alternatifKode,
+            'penilaian' => $penilaian,
         ]);
     }
 
@@ -21,7 +84,7 @@ class AlternativeController extends Controller
         // dd($x);
         AlternatifModel::create([
             'kode_Alternatif' => $x,
-            'nama_vendor' => $request->nama_vendor
+            'nama' => $request->nama
         ]);
         return redirect("/alternatif");
     }
@@ -38,7 +101,7 @@ class AlternativeController extends Controller
         $alternatif = $request->kode_alternatif;
         AlternatifModel::where('kode_alternatif', $alternatif)
             ->update([
-                'nama_vendor' => $request->nama_vendor
+                'nama' => $request->nama
             ]);
 
         return Redirect("/alternatif");

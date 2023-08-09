@@ -18,12 +18,12 @@ class PenilaianMigration extends Migration
             $table->string('kode_kriteria');
             $table->foreign('kode_kriteria')->references('kode_kriteria')->on('kriteria')->onDelete('cascade');
 
-            $table->unsignedBigInteger('sub_kriteria');
-            $table->foreign('sub_kriteria')->references('id')->on('sub_kriteria')->onDelete('cascade');
+            // $table->unsignedBigInteger('sub_kriteria');
+            // $table->foreign('sub_kriteria')->references('id')->on('sub_kriteria')->onDelete('cascade');
 
             $table->string('kode_alternatif');
             $table->foreign('kode_alternatif')->references('kode_alternatif')->on('alternatif')->onDelete('cascade');
-            $table->string('nilai');
+            $table->integer('nilai');
             $table->timestamps();
         });
     }

@@ -17,7 +17,8 @@ class KriteriaMigration extends Migration
             // $table->id();
             $table->string('kode_kriteria')->primary();
             $table->string('jenis_kriteria');
-            $table->decimal('bobot', $precision = 8, $scale = 2);
+            // $table->decimal('bobot', $precision = 8, $scale = 2);
+            $table->integer('bobot');
             $table->string('keterangan');
             $table->timestamps();
         });

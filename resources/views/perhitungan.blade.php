@@ -5,7 +5,7 @@
         <div class="container-fluid border-bottom">
             <div class="row">
                 <div class="col-6">
-                    <h2 class=" d-flex justify-content-start">Perhitungan WASPAS</h4>
+                    <h2 class=" d-flex justify-content-start">Perhitungan SAW</h4>
                 </div>
             </div>
         </div>

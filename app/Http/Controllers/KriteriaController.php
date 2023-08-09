@@ -27,15 +27,19 @@ class KriteriaController extends Controller
 
     public function tambahKriteria(Request $request)
     {
-        $x =  $request->kode_kriteria;
-        // dd($x);
-        KriteriaModel::create([
-            'kode_kriteria' => $x,
-            'jenis_kriteria' => $request->jenis_kriteria,
-            'bobot' => $request->bobot / 100,
-            'keterangan' => $request->keterangan
-        ]);
-        return redirect("/kriteria");
+        if ($request->kode_kriteria == null || $request->jenis_kriteria == null || $request->bobot == null || $request->keterangan == null) {
+            return redirect()->back()->withErrors(['message' => 'Harap isi semua kolom terlebih dahulu']);
+        } else {
+            $x =  $request->kode_kriteria;
+            // dd($x);
+            KriteriaModel::create([
+                'kode_kriteria' => $x,
+                'jenis_kriteria' => $request->jenis_kriteria,
+                'bobot' => $request->bobot,
+                'keterangan' => $request->keterangan
+            ]);
+            return redirect("/kriteria");
+        }
     }
 
     public function indexSub()
@@ -61,6 +65,7 @@ class KriteriaController extends Controller
 
     public function tambahSub(Request $request, $i)
     {
+
         subKriteriaModel::create([
             'cat_kriteria' => $request->{'cat_kriteria' . $i},
             'nilai' => $request->nilai,
@@ -83,7 +88,7 @@ class KriteriaController extends Controller
         KriteriaModel::where('kode_kriteria', $kriteria)
             ->update([
                 'jenis_kriteria' => $request->jenis_kriteria,
-                'bobot' => $request->bobot / 100,
+                'bobot' => $request->bobot,
                 'keterangan' => $request->keterangan
             ]);
 
