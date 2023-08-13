@@ -5,7 +5,7 @@
         <div class="container-fluid border-bottom">
             <div class="row">
                 <div class="col-6">
-                    <h2 class=" d-flex justify-content-start">Perhitungan SAW</h4>
+                    <h2 class=" d-flex justify-content-start">Perhitungan Topsis</h4>
                 </div>
             </div>
         </div>
@@ -20,7 +20,8 @@
                     <table class="table m-2 ">
                         <thead class="table-primary">
                             <tr>
-                                <th scope="col">Nama</th>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Nama Produk</th>
                                 @for ($k = 0; $k < $kriteriaCount; $k++)
                                     <th scope="col">{{ $kriteria[$k] }}</th>
                                 @endfor
@@ -30,10 +31,12 @@
                             @for ($a = 0; $a < $alternatifCount; $a++)
                                 <tr>
                                     <td>{{ $alternatif[$a] }}</td>
-
-
+                                    <td>{{ $alternatifProduk[$a] }}</td>
                                     @if ($penilaian->where('kode_alternatif', $alternatifKode[$a])->first() != null)
-                                        @foreach ($penilaian->where('kode_alternatif', $alternatifKode[$a]) as $p)
+                                        {{-- @php
+                                            dd($penilaian->where('kode_alternatif', $alternatifKode[$a])->get());
+                                        @endphp --}}
+                                        @foreach ($penilaian->where('kode_alternatif', $alternatifKode[$a])->get() as $p)
                                             <td>{{ $p->nilai }}</td>
                                             {{-- @endfor --}}
                                         @endforeach
@@ -50,6 +53,137 @@
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center mt-3">
+            <div class="card shadow-sm w-100">
+                <div class="card-header bg-primary" style="color:wheat">
+                    <i class="fa fa-users"></i>MATRIX KEPUTUSAN TERNOMALISASI
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table m-2 ">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Nama Produk</th>
+                                @for ($k = 0; $k < $kriteriaCount; $k++)
+                                    <th scope="col">{{ $kriteria[$k] }}</th>
+                                @endfor
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for ($a = 0; $a < $dataCountMatrix; $a++)
+                                <tr>
+                                    <td>{{ $alternatif[$a] }}</td>
+                                    <td>{{ $alternatifProduk[$a] }}</td>
+                                    @for ($b = 0; $b < $kriteriaCount; $b++)
+                                        <td>{{ number_format($dataMatrix[$a][$b], 2) }}</td>
+                                    @endfor
+
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid d-flex justify-content-center mt-3">
+            <div class="card shadow-sm w-100">
+                <div class="card-header bg-primary" style="color:wheat">
+                    <i class="fa fa-users"></i>MATRIX KEPUTUSAN TERNOMALISASI DAN TERBOBOT
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table m-2 ">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Nama Produk</th>
+                                @for ($k = 0; $k < $kriteriaCount; $k++)
+                                    <th scope="col">{{ $kriteria[$k] }}</th>
+                                @endfor
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for ($a = 0; $a < $dataCountMatrix2; $a++)
+                                <tr>
+                                    <td>{{ $alternatif[$a] }}</td>
+                                    <td>{{ $alternatifProduk[$a] }}</td>
+                                    @for ($b = 0; $b < $kriteriaCount; $b++)
+                                        <td>{{ number_format($dataMatrix2[$a][$b], 2) }}</td>
+                                    @endfor
+
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-center mt-3">
+            <div class="card shadow-sm w-100">
+                <div class="card-header bg-primary" style="color:wheat">
+                    <i class="fa fa-users"></i></i> Nilai Solusi Max Positif dan Min Negatif
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table m-2 ">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Keterangan</th>
+                                @for ($k = 0; $k < $kriteriaCount; $k++)
+                                    <th scope="col">{{ $kriteria[$k] }}</th>
+                                @endfor
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Maximal</td>
+                                @for ($i = 0; $i < $kriteriaCount; $i++)
+                                    <td>{{ $max[$i] }}</td>
+                                @endfor
+                            </tr>
+                            <tr>
+                                <td>Minimal</td>
+                                @for ($j = 0; $j < $kriteriaCount; $j++)
+                                    <td>{{ $min[$j] }}</td>
+                                @endfor
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-center mt-3">
+            <div class="card shadow-sm w-100">
+                <div class="card-header bg-primary" style="color:wheat">
+                    <i class="fa fa-users"></i>D- dan D+
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table m-2 ">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Nama Produk</th>
+                                <th>D+</th>
+                                <th>D-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for ($a = 0; $a < $alternatifCount; $a++)
+                                <tr>
+                                    <td>{{ $alternatif[$a] }}</td>
+                                    <td>{{ $alternatifProduk[$a] }}</td>
+                                    <td>{{ $D_plus[$i] }}</td>
+                                    <td>{{ $D_min[$i] }}</td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-primary" style="color:wheat">
                     <i class="fa fa-users"></i></i> Data MIN MAX
@@ -82,8 +216,8 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid d-flex justify-content-center mt-3">
+        </div> --}}
+        {{-- <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-primary" style="color:wheat">
                     <i class="fa fa-users"></i> NORMALISASI
@@ -113,9 +247,9 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="container-fluid d-flex justify-content-center mt-3">
+        {{-- <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-primary" style="color:wheat">
                     <i class="fa fa-users"></i> PERANKINGAN
@@ -146,34 +280,36 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        {{-- <div class="container-fluid d-flex justify-content-center mt-3">
+        <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-primary" style="color:wheat">
-                    <i class="fa fa-users"></i></i>NILAI Qi
+                    <i class="fa fa-users"></i></i>Perankingan
                 </div>
                 <div class="table-responsive">
 
                     <table class="table m-2 ">
                         <thead class="table-primary">
                             <tr>
-                                <th scope="col">Nama</th>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Nama Produk</th>
                                 <th>Nilai Qi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($a = 0; $a < $dataCount; $a++)
+                            @for ($a = 0; $a < $alternatifCount; $a++)
                                 <tr>
-                                    <td>{{ $alternatif[$a] }}</td>
-                                    <td>{{ $dataQi[$a] }}</td>
+                                    <td>{{ $rank[$a]['Supplier'] }}</td>
+                                    <td>{{ $rank[$a]['Produk'] }}</td>
+                                    <td>{{ $rank[$a]['Nilai'] }}</td>
                                 </tr>
                             @endfor
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 
 

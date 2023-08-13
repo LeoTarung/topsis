@@ -6,6 +6,7 @@ use App\Models\AlternatifModel;
 use Illuminate\Http\Request;
 use App\Models\KriteriaModel;
 use App\Models\PenilaianModel;
+use App\Models\ProdukModel;
 
 class AlternativeController extends Controller
 {
@@ -13,7 +14,7 @@ class AlternativeController extends Controller
     {
         $data = AlternatifModel::all();
         $kriteria = KriteriaModel::all();
-
+        $produk = ProdukModel::all();
         if ($kriteria->first() == null) {
             return redirect()->route('kriteria',  ['kriteria' => $data]);
         }
@@ -55,7 +56,7 @@ class AlternativeController extends Controller
 
             for ($i = 0; $i < $alternatifCount; $i++) {
                 ${'alternatif' . $i} = $alternatif[$i];
-                $alternatifJenis[] =  ${'alternatif' . $i}->nama;
+                $alternatifJenis[] =  ${'alternatif' . $i}->produk->nama_vendor;
             }
 
             for ($i = 0; $i < $alternatifCount; $i++) {
@@ -75,6 +76,7 @@ class AlternativeController extends Controller
             'alternatifCount' => $alternatifCount,
             'alternatifKode' => $alternatifKode,
             'penilaian' => $penilaian,
+            'produk' => $produk,
         ]);
     }
 
@@ -84,7 +86,8 @@ class AlternativeController extends Controller
         // dd($x);
         AlternatifModel::create([
             'kode_Alternatif' => $x,
-            'nama' => $request->nama
+            // 'nama' => $request->nama,
+            'kode_produk' => $request->kode_produk
         ]);
         return redirect("/alternatif");
     }
@@ -114,9 +117,5 @@ class AlternativeController extends Controller
 
         $delete = $data->where('kode_alternatif', $kode)->first();
         $delete->delete();
-
-        return view('alternatif', [
-            'alternatif' => $data
-        ]);
     }
 }

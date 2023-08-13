@@ -1,7 +1,16 @@
 @extends('main')
 @section('container')
     <!-- Page Content  -->
-    <div id="content" class="p-4 p-md-5 pt-5">
+    <div id="content" class="p-4 p-md-5 ">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="container-fluid border-bottom">
             <div class="row">
                 <div class="col-6">
@@ -27,10 +36,9 @@
         <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100" id="dataAlternatif">
                 <div class="card-header bg-secondary" style="color:wheat">
-                    <i class="fa fa-users"></i></i> Daftar Data Alternatif
+                    <i class="fa fa-users"></i> Daftar Data Alternatif
                 </div>
                 <div class="table-responsive">
-
                     <table class="table m-2 ">
                         <thead class="table-secondary">
                             <tr>
@@ -43,12 +51,13 @@
                         <tbody>
                             <?php $no = 1; ?>
                             @foreach ($data as $a)
-                                <tr>
+                                <tr>x
                                     <th scope="row"><?= $no ?></th>
                                     <td>{{ $a->kode_alternatif }}</td>
-                                    <td>{{ $a->nama }}</td>
-                                    <td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
-                                            onclick="edit('{{ $a->kode_alternatif }}')">Edit</button>
+                                    <td>{{ $a->produk->nama_vendor }}</td>
+                                    <td>
+                                        {{-- <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
+                                            onclick="edit('{{ $a->kode_alternatif }}')">Edit</button> --}}
                                         <button class="btn btn-danger"
                                             onclick="deleteRecord('{{ $a->kode_alternatif }}')">Hapus</button>
                                     </td>
@@ -90,9 +99,11 @@
                                                 <td>{{ $p->nilai }}</td>
                                                 {{-- @endfor --}}
                                             @endforeach
-                                            <td><button class="btn btn-warning" data-bs-toggle="modal"
+                                            <td>
+                                                <button class="btn btn-warning" data-bs-toggle="modal"
                                                     data-bs-target="#editPenilaian"
-                                                    onclick="editPenilaian('{{ $alternatifKode[$a] }}')">Edit</button></td>
+                                                    onclick="editPenilaian('{{ $alternatifKode[$a] }}')">Edit</button>
+                                            </td>
                                         @else
                                             @for ($b = 1; $b <= $kriteriaCount; $b++)
                                                 <td></td>
@@ -112,7 +123,7 @@
         </div>
     </div>
 
-    {{-- Modal Tambah kriteria --}}
+    {{-- Modal Tambah ALTERNATIF --}}
     <div class="modal fade" id="tambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-md  ">
@@ -135,9 +146,29 @@
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="nama " class="w-100">NAMA</label>
-                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="nama"
-                                        name="nama" required>
+                                    <label for="kode_produk" class="w-100">KODE PRODUK</label>
+                                    <select class="form-select w-100  rounded border-primary fw-bold w-75"
+                                        aria-label="Floating label select example" id="kode_produk" name="kode_produk"
+                                        onchange="produk()">
+                                        <option selected id="optionCore"> </option>
+                                        @foreach ($produk as $key)
+                                            <option value="{{ $key->kode_produk }}">{{ $key->nama_produk }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="nama_supplier" class="w-100">NAMA SUPPLIER</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold"
+                                        id="nama_supplier" name="nama_supplier" required readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="nama_produk" class="w-100">NAMA PRODUK</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold"
+                                        id="nama_produk" name="nama_produk" required readonly>
                                 </div>
                             </div>
                         </div>
@@ -153,8 +184,8 @@
         </div>
     </div>
 
-    {{-- Modal edit kriteria --}}
-    <div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    {{-- Modal edit Alternatif --}}
+    {{-- <div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-md  ">
             <form action="/alternatif/edit" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
@@ -176,9 +207,28 @@
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="nama " class="w-100">NAMA</label>
-                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="nama_edit"
-                                        name="nama" required>
+                                    <label for="kode_produk" class="w-100">KODE PRODUK</label>
+                                    <select class="form-select w-100  rounded border-primary fw-bold w-75"
+                                        aria-label="Floating label select example" id="kode_produk" name="kode_produk">
+                                        <option selected id="optionCore"> </option>
+                                        @foreach ($produk as $key)
+                                            <option value="{{ $key->kode_produk }}">{{ $key->nama_vendor }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="nama_supplier" class="w-100">NAMA SUPPLIER</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold"
+                                        id="nama_supplier" name="nama_supplier" required readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="nama_produk" class="w-100">NAMA PRODUK</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold"
+                                        id="nama_produk" name="nama_produk" required readonly>
                                 </div>
                             </div>
                         </div>
@@ -186,13 +236,12 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="btn-cancel"
                             data-bs-dismiss="modal">Cancel</button>
-                        {{-- <button type="submit" class="btn btn-primary" onclick="redirect()">Lanjutkan</button> --}}
                         <button type="submit" id="submit" class="btn btn-success">Simpan</button>
                     </div>
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 
     {{-- Modal Edit Penilaian --}}
     <div class="modal fade" id="editPenilaian" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -247,7 +296,7 @@
         </div>
     </div>
 
-    {{-- Modal tambah kriteria --}}
+    {{-- Modal tambah PENILAIAN --}}
     <div class="modal fade" id="tambahPenilaian" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-md  ">
@@ -306,6 +355,22 @@
             id.value = x;
         }
 
+        function produk() {
+            let kode = document.getElementById('kode_produk').value
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: "{{ url('/produk/edit') }}" + "/" + kode,
+                success: function(data) {
+                    // let kodeEdit = document.getElementById('kode_alternatif_edit');
+                    // kodeEdit.value = kode;
+                    console.log(data);
+                    $("#nama_supplier").val(data.nama_vendor);
+                    $("#nama_produk").val(data.nama_produk);
+                }
+            })
+
+        }
 
         function edit(kode) {
             $.ajax({
@@ -347,16 +412,14 @@
 
         carddataAlternatif.hidden = false;
         cardpenilaianAlternatif.hidden = true;
-        console.log(carddataAlternatif)
-        console.log(cardpenilaianAlternatif)
 
         function menu(id) {
             if (id == 1) {
-                console.log('1');
+
                 carddataAlternatif.hidden = false;
                 cardpenilaianAlternatif.hidden = true;
             } else if (id == 2) {
-                console.log('2');
+
                 carddataAlternatif.hidden = true;
                 cardpenilaianAlternatif.hidden = false;
             }

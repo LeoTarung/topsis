@@ -50,10 +50,12 @@
     </div>
 </nav> --}}
 
-<div class="">
-    <h1><a href="index.html" class="logo">Kenitic <span>Blog Agency</span></a></h1>
+{{-- <div class="">
+    <h1 class="px-4"><a href="index.html" class="logo"><img src="/logo.png" style="width:200px;" alt=""
+                srcset=""></a></h1>
     <ul class="list-unstyled components mb-5">
-        <li class="active">
+
+        <li>
             <a href="/kriteria"><span class="fa fa-home mr-3"></span> Kriteria</a>
         </li>
         <li>
@@ -70,4 +72,70 @@
         </li>
     </ul>
 
-</div>
+</div> --}}
+
+<!-- Sidebar  -->
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <div class="row">
+            <div class="col-6 "> <img src="/usericon.png" style="width: 100px;" alt="" srcset=""></div>
+            <div class="col-6 d-flex align-items-start  flex-column">
+                {{-- <div> --}}
+                <h5 class="align-middle mt-4" style="margin-left: -14%">Admin</h5>
+                <div class="row ">
+                    <div class="card"
+                        style="margin-top:8%;width:10px; height:10px;border-radius:20px;;background-color:greenyellow;">
+                    </div>
+                    <span class="ms-5 mb-3" style="font-size: 15px; margin-left:10px; "> Online</span>
+                </div>
+
+                {{-- </div> --}}
+                {{-- <br> --}}
+                {{-- <div>
+
+                </div> --}}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <ul class="list-unstyled components">
+        {{-- <p>Dummy Heading</p> --}}
+        <li>
+            <a href="#">Dashboard</a>
+        </li>
+        <li>
+            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Data Master</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+                <li>
+                    <a href="/produk">Produk</a>
+                </li>
+                <li>
+                    <a href="/kriteria">Kriteria</a>
+                </li>
+                <li>
+                    <a href="/alternatif">Alternatif</a>
+                </li>
+                <li>
+                    <a href="/surat/pengajuan">Surat Pengajuan</a>
+                </li>
+                <li>
+                    <a href="/user">User</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/perhitungan">Perhitungan</a>
+        </li>
+        <li>
+            <a href="/validasi">Validasi</a>
+        </li>
+        <li>
+            <a href="/laporan">Laporan</a>
+        </li>
+    </ul>
+
+
+</nav>

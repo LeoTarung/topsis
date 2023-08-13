@@ -9,7 +9,12 @@ class AlternatifModel extends Model
 {
     use HasFactory;
     protected $primaryKey = 'kode_alternatif';
-    protected $table = 'alternatif';
+    protected $table = 'db_alternatif';
     protected $guarded = [];
     public $incrementing = false;
+
+    public function produk()
+    {
+        return $this->belongsTo(ProdukModel::class, 'kode_produk', 'kode_produk');
+    }
 }

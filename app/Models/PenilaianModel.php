@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class PenilaianModel extends Model
 {
     use HasFactory;
-    protected $table = 'penilaian';
+    protected $table = 'db_penilaian';
     protected $guarded = [];
 
     public function sub()

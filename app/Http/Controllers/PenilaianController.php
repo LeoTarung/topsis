@@ -13,67 +13,56 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenilaianController extends Controller
 {
-    public function index()
-    {
-        $kriteria = KriteriaModel::all();
-        $alt = AlternatifModel::all()->sortBy('urutan');
-        foreach ($alt as $key) {
-            $alternatif[] = $key;
-        }
-        // dd($alternatif);
-        $subKriteria = subKriteriaModel::all();
-        $penilaian = PenilaianModel::all();
+    // public function index()
+    // {
+    //     $kriteria = KriteriaModel::all();
+    //     $alt = AlternatifModel::all()->sortBy('urutan');
+    //     foreach ($alt as $key) {
+    //         $alternatif[] = $key;
+    //     }
+    //     // dd($alternatif);
+    //     $subKriteria = subKriteriaModel::all();
+    //     $penilaian = PenilaianModel::all();
 
-        // dd($subrelation);
-        $kriteriaCount = KriteriaModel::count();
-        $alternatifCount = AlternatifModel::count();
-        // dd($subKriteria);
+    //     // dd($subrelation);
+    //     $kriteriaCount = KriteriaModel::count();
+    //     $alternatifCount = AlternatifModel::count();
+    //     // dd($subKriteria);
 
-        for ($i = 0; $i < $kriteriaCount; $i++) {
-            ${'kriteria' . $i} = $kriteria->get($i);
-            $kriteriaJenis[] =  ${'kriteria' . $i}->jenis_kriteria;
-        }
+    //     for ($i = 0; $i < $kriteriaCount; $i++) {
+    //         ${'kriteria' . $i} = $kriteria->get($i);
+    //         $kriteriaJenis[] =  ${'kriteria' . $i}->jenis_kriteria;
+    //     }
 
-        for ($i = 0; $i < $kriteriaCount; $i++) {
-            ${'kriteria' . $i} = $kriteria->get($i);
-            $kriteriaKode[] =  ${'kriteria' . $i}->kode_kriteria;
-        }
+    //     for ($i = 0; $i < $kriteriaCount; $i++) {
+    //         ${'kriteria' . $i} = $kriteria->get($i);
+    //         $kriteriaKode[] =  ${'kriteria' . $i}->kode_kriteria;
+    //     }
 
-        for ($i = 0; $i < $alternatifCount; $i++) {
-            ${'alternatif' . $i} = $alternatif[$i];
-            $alternatifJenis[] =  ${'alternatif' . $i}->nama;
-        }
+    //     for ($i = 0; $i < $alternatifCount; $i++) {
+    //         ${'alternatif' . $i} = $alternatif[$i];
+    //         $alternatifJenis[] =  ${'alternatif' . $i}->nama;
+    //     }
 
-        for ($i = 0; $i < $alternatifCount; $i++) {
-            ${'alternatif' . $i} =  $alternatif[$i];
-            $alternatifKode[] =  ${'alternatif' . $i}->kode_alternatif;
-        }
-        // dd($alternatifJenis);
-        // foreach ($penilaian as $key) {
-        //     $test[] = $key->nilai;
-        //     # code...
-        // }
-        // dd($test);
-        // dd($penilaian->where('kode_alternatif', $alternatifKode[3])->where('kode_kriteria', $kriteriaKode[3 + 1])->first());
-        // dd($alternatifJenis);
-        return view('penilaian', [
-            'kriteria' => $kriteriaJenis,
-            'kriteriaCount' => $kriteriaCount,
-            'kriteriaKode' => $kriteriaKode,
-            'penilaian' => $penilaian,
+    //     for ($i = 0; $i < $alternatifCount; $i++) {
+    //         ${'alternatif' . $i} =  $alternatif[$i];
+    //         $alternatifKode[] =  ${'alternatif' . $i}->kode_alternatif;
+    //     }
+    //     return view('penilaian', [
+    //         'kriteria' => $kriteriaJenis,
+    //         'kriteriaCount' => $kriteriaCount,
+    //         'kriteriaKode' => $kriteriaKode,
+    //         'penilaian' => $penilaian,
 
-            'alternatif' => $alternatifJenis,
-            'alternatifCount' => $alternatifCount,
-            'alternatifKode' => $alternatifKode,
-            'subKriteria' => $subKriteria
-        ]);
-    }
+    //         'alternatif' => $alternatifJenis,
+    //         'alternatifCount' => $alternatifCount,
+    //         'alternatifKode' => $alternatifKode,
+    //         'subKriteria' => $subKriteria
+    //     ]);
+    // }
 
     public function tambahPenilaian(Request $request)
     {
-        // $nilai = subKriteriaModel::where('keterangan', $request->kriteria2)->first();
-        // dd($nilai->nilai);
-        // dd($request);
         for ($i = 1; $i <=  $kriteriaCount = KriteriaModel::count(); $i++) {
             // ${'nilai' . $i} = subKriteriaModel::where('range', $request->{'kriteria' . $i})->first();
             PenilaianModel::create([
@@ -215,11 +204,15 @@ class PenilaianController extends Controller
         // $subKriteria = subKriteriaModel::all();
         $penilaian = PenilaianModel::all();
 
-        // dd($subrelation);
+        //Validasi Data Null .Jika null maka akan dilempar ke halaman sebelumnya
+        if ($kriteria == null || $alt == null || $penilaian == null) {
+            // dd('disatu');
+            return redirect()->back()->withErrors(['message' => 'isi Kriteria dan Alternatif Terlebih dahulu']);
+        }
+
         $kriteriaCount = KriteriaModel::count();
         $alternatifCount = AlternatifModel::count();
 
-        // dd($alternatif);
 
         // GET JENIS KRITERIA
         for ($i = 0; $i < $kriteriaCount; $i++) {
@@ -232,23 +225,40 @@ class PenilaianController extends Controller
             $kriteriaKode[] =  ${'kriteria' . $i}->kode_kriteria;
         }
 
-        // GET NAMA Alternatif
+        // GET NAMA Alternatif Supplier
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
-            $alternatifJenis[] =  ${'alternatif' . $i}->nama;
+            $alternatifJenis[] =  ${'alternatif' . $i}->produk->nama_vendor;
         }
 
+        // GET NAMA Alternatif Produk
+        for ($i = 0; $i < $alternatifCount; $i++) {
+            ${'alternatif' . $i} = $alternatif[$i];
+            $alternatifProduk[] =  ${'alternatif' . $i}->produk->nama_produk;
+        }
+
+        // dd($alternatifJenis, $alternatifProduk);
         // GET KODE Alternatif
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
             $alternatifKode[] =  ${'alternatif' . $i}->kode_alternatif;
         }
 
+        //Cek Data Penilaian yang Null, Jika null maka akan dilempar ke halaman sebelumnya
+        for ($i = 0; $i < $alternatifCount; $i++) {
+            for ($j = 0; $j < $kriteriaCount; $j++) {
+                if (PenilaianModel::where('kode_alternatif', $alternatifKode[$i])->where('kode_kriteria', $kriteriaKode[$j])->first() == null) {
+                    // dd('didua');
+                    return redirect()->back()->withErrors(['message' => 'isi Penilaian untuk setiap alternatif terlebih dahulu']);
+                }
+            }
+        }
+
+
         //Matrix Keputusan Normalisasi
         for ($i = 0; $i < $kriteriaCount; $i++) {
             ${'pembagi' . $i} = 0;
             ${'test' . $i} = 0;
-            // for ($j = 0; $j < $alternatifCount; $j++) {
             $penilaian = PenilaianModel::where('kode_kriteria', $kriteriaKode[$i])->get();
             foreach ($penilaian as $key) {
                 ${'pembagi' . $i} = ${'pembagi' . $i} +  pow($key->nilai, 2);
@@ -302,10 +312,52 @@ class PenilaianController extends Controller
             }
             $justNumber =  $justNumber + 1;
         }
-        // dd($maxValues, $minValues);
 
-        
+        //D- dan D+
+        //D+
+        for ($i = 0; $i < $alternatifCount; $i++) {
+            ${'D_plus' . $i} = 0;
+            for ($j = 0; $j < $kriteriaCount; $j++) {
+                ${'D_plus' . $i . $j} = pow($maxValues[$j] - $dataMatrix2[$i][$j], 2);
 
+                ${'D_plus' . $i} = ${'D_plus' . $i} + ${'D_plus' . $i . $j};
+            }
+            ${'D_plus' . $i} = sqrt(${'D_plus' . $i});
+            $D_plus[] =   ${'D_plus' . $i};
+        }
+
+
+        //D-
+        for ($i = 0; $i < $alternatifCount; $i++) {
+            ${'D_min' . $i} = 0;
+            for ($j = 0; $j < $kriteriaCount; $j++) {
+                ${'D_min' . $i . $j} = pow($minValues[$j] - $dataMatrix2[$i][$j], 2);
+
+                ${'D_min' . $i} = ${'D_min' . $i} + ${'D_min' . $i . $j};
+            }
+            ${'D_min' . $i} = sqrt(${'D_min' . $i});
+            $D_min[] =   ${'D_min' . $i};
+        }
+
+        // dd($D_plus, $D_min);
+
+        //Nilai Preferensi
+        for ($i = 0; $i < $alternatifCount; $i++) {
+            $nilaiQi[] = $D_min[$i] / ($D_plus[$i] + $D_min[$i]);
+        }
+
+        for ($i = 0; $i < count($alternatifJenis); $i++) {
+            $summary[] = [
+                'Supplier' => $alternatifJenis[$i],
+                'Produk' => $alternatifProduk[$i],
+                'Nilai' => $nilaiQi[$i]
+            ];
+        }
+        //Perankingan
+        usort($summary, function ($a, $b) {
+            return $b['Nilai'] <=> $a['Nilai'];
+        });
+        // dd($summary);
 
         return view('perhitungan', [
             'kriteria' => $kriteriaJenis,
@@ -313,14 +365,20 @@ class PenilaianController extends Controller
             'kriteriaKode' => $kriteriaKode,
             'penilaian' => $penilaian,
             'dataMatrix' => $dataMatrix,
-            'hasil' => $hasil,
-            // 'dataQi' => $dataQi,
-            'dataCount' => count($data),
-            'rank' => $rank,
+            'dataMatrix2' => $dataMatrix2,
+            'max' => $maxValues,
+            'min' => $minValues,
+            'D_plus' => $D_plus,
+            'D_min' => $D_min,
+            'dataCountMatrix' => count($dataMatrix),
+            'dataCountMatrix2' => count($dataMatrix2),
+            'nilaiQi' => $nilaiQi,
+            'rank' => $summary,
             'alternatif' => $alternatifJenis,
+            'alternatifProduk' => $alternatifProduk,
             'alternatifCount' => $alternatifCount,
             'alternatifKode' => $alternatifKode,
-            'subKriteria' => $subKriteria
+            // 'subKriteria' => $subKriteria
         ]);
     }
 
@@ -387,81 +445,6 @@ class PenilaianController extends Controller
             // dd($j);
         }
 
-        // Mencari Nilai Qi
-        // dd($data);
-        // for ($j = 1; $j <= $alternatifCount; $j++) {
-        //     for ($i = 1; $i <= $kriteriaCount; $i++) {
-
-        //         ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
-
-        //         ${'timesQ' .  $i . '_' . $j} =  ${'bobot' .  $i . '_' . $j}->bobot * $data[$j - 1][$i - 1];
-
-        //         ${'powQ' .  $i . '_' . $j} =  pow($data[$j - 1][$i - 1], ${'bobot' .  $i . '_' . $j}->bobot);
-        //     }
-
-
-        //     ${'times2Q' . $j} =  ${'timesQ' . 1 . '_' . $j};
-        //     ${'pow2Q' . $j} =  ${'powQ' . 1 . '_' . $j};
-        //     for ($k = 2; $k <= $kriteriaCount; $k++) {
-        //         ${'times2Q' . $j} =   ${'times2Q' . $j} + ${'timesQ' .  $k . '_' . $j};
-        //         ${'pow2Q' . $j} =   ${'pow2Q' . $j} * ${'powQ' .  $k . '_' . $j};
-        //     }
-        //     ${'Q' . $j} = (${'times2Q' . $j} * 0.5) + (${'pow2Q' . $j} * 0.5);
-        // }
-
-
-        // for ($j = 1; $j <= $alternatifCount; $j++) {
-        //     $dataQi[] =  ${'Q' . $j};
-        // }
-
-        //------------- [Perhitungan akhir Bobot dikalikan dengan hasil normalisasi masing-masing ]-----------------//
-        for ($j = 1; $j <= count($data); $j++) {
-            ${'hasilRank' . $j} = 0;
-            for ($i = 1; $i <= $kriteriaCount; $i++) {
-                ${'bobot' .  $i . '_' . $j} = $kriteria->where('kode_kriteria', 'C' . $i)->first();
-
-                ${'timesQ' .  $i . '_' . $j} =  ${'bobot' .  $i . '_' . $j}->bobot * $data[$j - 1][$i - 1];
-                ${'dataRank' . $j}[] =   ${'timesQ' .  $i . '_' . $j};
-                ${'hasilRank' . $j} =  ${'hasilRank' . $j} +  ${'timesQ' .  $i . '_' . $j};
-            }
-        }
-
-        for ($j = 1; $j <= $alternatifCount; $j++) {
-            if (${'dataNormal' . $j} != null) {
-                $rank[] = ${'dataRank' . $j};
-                $hasil[] = ${'hasilRank' . $j};
-            } else {
-            }
-        }
-        // $nilaiqi = nilaiQiModel::first();
-        // dd($nilaiqi);
-        if (nilaiQiModel::first() == null) {
-            for ($j = 1; $j <= $alternatifCount; $j++) {
-                nilaiQiModel::create([
-                    'kode_alternatif' => 'A' . $j,
-                    'nilai_qi' => $hasil[$j - 1]
-                ]);
-            }
-        } else {
-            for ($j = 1; $j <= $alternatifCount; $j++) {
-                $edit = nilaiQiModel::where('kode_alternatif', 'A' . $j);
-                // dd($edit);
-                $edit->update([
-                    'kode_alternatif' => 'A' . $j,
-                    'nilai_qi' => $hasil[$j - 1]
-                ]);
-            }
-            // dd($edit);
-        }
-
-        $qi = nilaiQiModel::all()->sortByDesc('nilai_qi');
-        // foreach ($qi as $key) {
-        //     $nilaiqi[] = $key;
-        // // }
-        // $test = $qi->first();
-        // dd($test->alternatif);
-
-
         return view('hasil', [
             'kriteria' => $kriteriaJenis,
             'kriteriaCount' => $kriteriaCount,
@@ -476,13 +459,5 @@ class PenilaianController extends Controller
             'alternatifKode' => $alternatifKode,
             'subKriteria' => $subKriteria
         ]);
-    }
-    public function indexPrint()
-    {
-        $qi = nilaiQiModel::all()->sortByDesc('nilai_qi');
-
-        $pdf = Pdf::loadView('print',  ['NilaiQi' => $qi]);
-        return $pdf->download('print.pdf');
-        // return view('print', ['NilaiQi' => $qi,]);
     }
 }

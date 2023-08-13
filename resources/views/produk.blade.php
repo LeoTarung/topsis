@@ -10,14 +10,14 @@
             </ul>
         </div>
     @endif
-    <div id="content" class="p-4 p-md-5 ">
+    <div id="content" class="p-4 p-md-5 pt-5">
         <div class="container-fluid border-bottom">
             <div class="row">
                 <div class="col-6">
-                    <h2 class=" d-flex justify-content-start">Data Kriteria</h4>
+                    <h2 class=" d-flex justify-content-start">Data Produk</h4>
                 </div>
                 <div class="col-6 d-flex  justify-content-end h-50">
-                    <button class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#tambah" onclick="tambah()"><i
+                    <button class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#tambah"><i
                             class="fa fa-plus"></i> Tambah Data</h4>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         <div class="container-fluid d-flex justify-content-center mt-3">
             <div class="card shadow-sm w-100">
                 <div class="card-header bg-secondary" style="color:wheat">
-                    <i class="fa fa-paperclip"></i></i> Daftar Data Kriteria
+                    <i class="fa fa-paperclip"></i></i> Daftar Data Produk
                 </div>
                 <div class="table-responsive">
 
@@ -34,26 +34,30 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Kode Kriteria</th>
-                                <th scope="col">Nama Kriteria</th>
-                                <th scope="col">Bobot</th>
-                                <th scope="col">Keterangan</th>
+                                <th scope="col">Kode Produk</th>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Alamat</th>
+                                <th scope="col">Kota</th>
+                                <th scope="col">Harga</th>
                                 <th scope="col"> Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
-                            @foreach ($kriteria as $k)
+                            @foreach ($produk as $p)
                                 <tr>
                                     <td><?= $no ?></td>
-                                    <td>{{ $k->kode_kriteria }}</td>
-                                    <td>{{ $k->jenis_kriteria }}</td>
-                                    <td>{{ $k->bobot }}</td>
-                                    <td>{{ $k->keterangan }}</td>
+                                    <td>{{ $p->kode_produk }}</td>
+                                    <td>{{ $p->nama_vendor }}</td>
+                                    <td>{{ $p->nama_produk }}</td>
+                                    <td>{{ $p->alamat }}</td>
+                                    <td>{{ $p->kota }}</td>
+                                    <td>{{ $p->harga }}</td>
                                     <td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit"
-                                            onclick="edit('{{ $k->kode_kriteria }}')">Edit</button>
+                                            onclick="edit('{{ $p->kode_produk }}')">Edit</button>
                                         <button class="btn btn-danger"
-                                            onclick="deleteRecord('{{ $k->kode_kriteria }}')">Hapus</button>
+                                            onclick="deleteRecord('{{ $p->kode_produk }}')">Hapus</button>
                                     </td>
                                     <meta name="csrf-token" content="{{ csrf_token() }}">
                                 </tr>
@@ -66,11 +70,11 @@
         </div>
     </div>
 
-    {{-- Modal Tambah kriteria --}}
+    {{-- Modal Tambah produk --}}
     <div class="modal fade" id="tambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md  ">
-            <form action="/kriteria/tambah" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
+        <div class="modal-dialog modal-lg ">
+            <form action="/produk/tambah" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -82,42 +86,46 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="kode_kriteria" class="w-50">KODE KRITERIA</label>
+                                    <label for="kode_produk" class="w-50">KODE PRODUK</label>
                                     <input type="text" class="w-100 w-100   rounded border-primary fw-bold"
-                                        id="kode_kriteria" name="kode_kriteria" required readonly>
+                                        id="kode_produk" name="kode_produk" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="jenis_kriteria " class="w-50">NAMA KRITERIA</label>
+                                    <label for="nama_supplier " class="w-50">NAMA SUPPLIER</label>
                                     <input type="text" class=" w-100    rounded border-primary fw-bold"
-                                        id="jenis_kriteria" name="jenis_kriteria" required>
+                                        id="nama_supplier" name="nama_supplier" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <div class="input-group">
-                                        <label for="bobot " class="w-50">BOBOT</label>
-                                        <input type="number" class=" w-100 rounded border-primary fw-bold"
-                                            aria-label="Dollar amount (with dot and two decimal places)" id="bobot"
-                                            name="bobot" required>
-                                        {{-- <span class="W-25  rounded border-primary input-group-text">%</span> --}}
-                                    </div>
+                                    <label for="nama_produk " class="w-50">NAMA PRODUK</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="nama_produk"
+                                        name="nama_produk" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="keterangan" class="w-50">KETERANGAN</label>
-                                    <select class="form-select w-100  rounded border-primary fw-bold w-75"
-                                        id="floatingSelect" aria-label="Floating label select example" id="keterangan"
-                                        name="keterangan" required>
-                                        <option selected> </option>
-                                        <option value="benefit">BENEFIT</option>
-                                        <option value="cost">COST</option>
-                                    </select>
+                                    <label for="alamat " class="w-50">Alamat</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="alamat"
+                                        name="alamat" required>
                                 </div>
                             </div>
-
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="kota " class="w-50">Kota</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="kota"
+                                        name="kota" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="harga " class="w-50">Harga</label>
+                                    <input type="number" class=" w-100    rounded border-primary fw-bold" id="harga"
+                                        name="harga" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -131,11 +139,11 @@
         </div>
     </div>
 
-    {{-- Modal Edit kriteria --}}
+    {{-- Modal Edit produk --}}
     <div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md  ">
-            <form action="/kriteria/edit" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
+        <div class="modal-dialog modal-lg  ">
+            <form action="/produk/edit/" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -147,42 +155,46 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="kode_kriteria" class="w-50">KODE KRITERIA</label>
+                                    <label for="kode_produk" class="w-50">KODE PRODUK</label>
                                     <input type="text" class="w-100 w-100   rounded border-primary fw-bold"
-                                        id="kode_kriteria_edit" name="kode_kriteria" required readonly>
+                                        id="kode_produk_edit" name="kode_produk_edit" required readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="jenis_kriteria " class="w-50">NAMA KRITERIA</label>
+                                    <label for="nama_supplier " class="w-50">NAMA SUPPLIER</label>
                                     <input type="text" class=" w-100    rounded border-primary fw-bold"
-                                        id="jenis_kriteria_edit" name="jenis_kriteria" required>
+                                        id="nama_supplier_edit" name="nama_supplier_edit" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <div class="input-group">
-                                        <label for="bobot " class="w-50">BOBOT</label>
-                                        <input type="number" class=" w-100  rounded border-primary fw-bold"
-                                            aria-label="Dollar amount (with dot and two decimal places)" id="bobot_edit"
-                                            name="bobot">
-                                        {{-- <span class="W-25  rounded border-primary input-group-text">%</span> --}}
-                                    </div>
+                                    <label for="nama_produk " class="w-50">NAMA PRODUK</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold"
+                                        id="nama_produk_edit" name="nama_produk_edit" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <label for="keterangan" class="w-50">KETERANGAN</label>
-                                    <select class="form-select w-100  rounded border-primary fw-bold w-75"
-                                        id="floatingSelect" aria-label="Floating label select example"
-                                        id="keterangan_edit" name="keterangan">
-                                        <option selected id="optionCore"> </option>
-                                        <option value="benefit">BENEFIT</option>
-                                        <option value="cost">COST</option>
-                                    </select>
+                                    <label for="alamat " class="w-50">Alamat</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold"
+                                        id="alamat_edit" name="alamat_edit" required>
                                 </div>
                             </div>
-
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="kota " class="w-50">Kota</label>
+                                    <input type="text" class=" w-100    rounded border-primary fw-bold" id="kota_edit"
+                                        name="kota_edit" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <label for="harga_edit" class="w-50">Harga</label>
+                                    <input type="number" class=" w-100    rounded border-primary fw-bold"
+                                        id="harga_edit" name="harga_edit" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -198,30 +210,32 @@
 
 
     <script>
-        function tambah() {
-            //buat nambah otomatis id nya
-            let count = {{ $kriteria->count() }};
-            // console.log(count);
-            let id = document.getElementById('kode_kriteria');
-            let x = "C" + (count + 1);
-            console.log(x);
-            id.value = x;
-        }
+        // function tambah() {
+        //     //buat nambah otomatis id nya
+        //     let count = {{ $produk->count() }};
+        //     // console.log(count);
+        //     let id = document.getElementById('kode_produk');
+        //     let x = "C" + (count + 1);
+        //     console.log(x);
+        //     id.value = x;
+        // }
 
         function edit(kode) {
             $.ajax({
                 method: "GET",
                 dataType: "json",
-                url: "{{ url('/kriteria/edit') }}" + "/" + kode,
+                url: "{{ url('/produk/edit') }}" + "/" + kode,
                 success: function(data) {
-                    let kodeEdit = document.getElementById('kode_kriteria_edit');
+                    let kodeEdit = document.getElementById('kode_produk_edit');
                     kodeEdit.value = kode;
                     console.log(data);
-                    let option = document.getElementById('optionCore');
-                    $("#jenis_kriteria_edit").val(data.jenis_kriteria);
-                    // document.getElementById('jenis_kriteria_edit').value = data[0].jenis_kriteria;
-                    $("#bobot_edit").val((data.bobot));
-                    option.innerHTML = data.keterangan;
+                    $("#nama_supplier_edit").val(data.nama_vendor);
+                    $("#nama_produk_edit").val(data.nama_produk);
+                    $("#alamat_edit").val(data.alamat);
+                    $("#kota_edit").val(data.kota);
+                    $("#harga_edit").val(data.harga);
+                    // document.getElementById('jenis_produk_edit').value = data[0].jenis_produk;
+
                 }
             })
         }
@@ -230,7 +244,7 @@
             console.log(kode);
             if (confirm('Apakah anda yakin akan menghapus ini?')) {
                 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                fetch('/kriteria/' + kode, {
+                fetch('/produk/' + kode, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-Token': csrfToken

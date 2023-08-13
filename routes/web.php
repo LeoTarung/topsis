@@ -3,9 +3,11 @@
 use App\Models\KriteriaModel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\AlternativeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,10 +27,19 @@ Route::post('/daftar', [AuthController::class, 'daftar']);
 Route::get('forgot-password', [AuthController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('password.update');
 
-// Route::get('/', function () {
-//     return view('home');
-// });
-Route::get('/', [KriteriaController::class, 'home'])->name('home');
+
+// Route::get('/', [KriteriaController::class, 'home'])->name('home');
+Route::get('/user', [UserController::class, 'index'])->name('kriteria');
+Route::post('/user/tambah', [UserController::class, 'tambahUser']);
+Route::get('/user/edit/{kode}', [userController::class, 'editUser']);
+Route::post('/user/edit', [userController::class, 'updateUser']);
+Route::delete('/user/{kode}', [userController::class, 'destroy']);
+
+Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
+Route::post('/produk/tambah', [ProdukController::class, 'tambahProduk']);
+Route::get('/produk/edit/{kode}', [ProdukController::class, 'editProduk']);
+Route::post('/produk/edit', [ProdukController::class, 'updateProduk']);
+Route::delete('/produk/{kode}', [ProdukController::class, 'destroy']);
 
 Route::get('/kriteria', [KriteriaController::class, 'index'])->name('kriteria');
 Route::post('/kriteria/tambah', [KriteriaController::class, 'tambahKriteria']);
@@ -49,7 +60,7 @@ Route::post('/subKriteria/update', [KriteriaController::class, 'updateSubKriteri
 Route::delete('/subKriteria/{id}', [KriteriaController::class, 'destroySub']);
 
 
-Route::get('/penilaian', [PenilaianController::class, 'index']);
+// Route::get('/penilaian', [PenilaianController::class, 'index']);
 Route::post('/penilaian/tambah', [PenilaianController::class, 'tambahPenilaian']);
 Route::get('/penilaian/edit/{alternatif}', [PenilaianController::class, 'editPenilaian']);
 Route::post('/penilaian/Edit', [PenilaianController::class, 'updatePenilaian']);
