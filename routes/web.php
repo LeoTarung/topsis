@@ -28,7 +28,7 @@ Route::get('forgot-password', [AuthController::class, 'showLinkRequestForm'])->n
 Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('password.update');
 
 
-// Route::get('/', [KriteriaController::class, 'home'])->name('home');
+Route::get('/', [KriteriaController::class, 'home'])->name('home');
 Route::get('/user', [UserController::class, 'index'])->name('kriteria');
 Route::post('/user/tambah', [UserController::class, 'tambahUser']);
 Route::get('/user/edit/{kode}', [userController::class, 'editUser']);
