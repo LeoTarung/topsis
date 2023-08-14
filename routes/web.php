@@ -29,7 +29,7 @@ Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('
 
 
 Route::get('/', [KriteriaController::class, 'home'])->name('home');
-Route::get('/user', [UserController::class, 'index'])->name('kriteria');
+Route::get('/user', [UserController::class, 'index'])->name('user');
 Route::post('/user/tambah', [UserController::class, 'tambahUser']);
 Route::get('/user/edit/{kode}', [userController::class, 'editUser']);
 Route::post('/user/edit', [userController::class, 'updateUser']);
