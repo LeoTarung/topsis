@@ -174,8 +174,8 @@
                                 <tr>
                                     <td>{{ $alternatif[$a] }}</td>
                                     <td>{{ $alternatifProduk[$a] }}</td>
-                                    <td>{{ $D_plus[$i] }}</td>
-                                    <td>{{ $D_min[$i] }}</td>
+                                    <td>{{ $D_plus[$a] }}</td>
+                                    <td>{{ $D_min[$a] }}</td>
                                 </tr>
                             @endfor
                         </tbody>
