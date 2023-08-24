@@ -23,6 +23,8 @@ class DbRequest extends Migration
             $table->integer('total_akhir');
             $table->string('kode_produk');
             $table->foreign('kode_produk')->references('kode_produk')->on('db_produk')->onDelete('cascade');
+            $table->date('validasi')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

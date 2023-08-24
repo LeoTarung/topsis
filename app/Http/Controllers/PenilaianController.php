@@ -197,6 +197,7 @@ class PenilaianController extends Controller
     {
         $kriteria = KriteriaModel::all();
         $alt = AlternatifModel::all()->sortBy('urutan');
+        // dd($alt);
         foreach ($alt as $key) {
             $alternatif[] = $key;
         }
@@ -205,7 +206,7 @@ class PenilaianController extends Controller
         $penilaian = PenilaianModel::all();
 
         //Validasi Data Null .Jika null maka akan dilempar ke halaman sebelumnya
-        if ($kriteria == null || $alt == null || $penilaian == null) {
+        if ($kriteria == null || $alt == null || $penilaian == null || $kriteria->count() <= 1 || $alt->count() <= 1 || $penilaian->count() <= 1) {
             // dd('disatu');
             return redirect()->back()->withErrors(['message' => 'isi Kriteria dan Alternatif Terlebih dahulu']);
         }
@@ -234,7 +235,7 @@ class PenilaianController extends Controller
         // GET NAMA Alternatif Produk
         for ($i = 0; $i < $alternatifCount; $i++) {
             ${'alternatif' . $i} = $alternatif[$i];
-            $alternatifProduk[] =  ${'alternatif' . $i}->produk->nama_produk;
+            $alternatifProduk[] =  ${'alternatif' . $i}->produk->kode_produk;
         }
 
         // dd($alternatifJenis, $alternatifProduk);
@@ -350,7 +351,7 @@ class PenilaianController extends Controller
             $summary[] = [
                 'Supplier' => $alternatifJenis[$i],
                 'Produk' => $alternatifProduk[$i],
-                'Nilai' => $nilaiQi[$i]
+                'Nilai' => number_format($nilaiQi[$i], 2)
             ];
         }
         //Perankingan

@@ -8,6 +8,7 @@ use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\AlternativeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SuratController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,12 +54,15 @@ Route::get('/alternatif/edit/{kode}', [AlternativeController::class, 'editAltern
 Route::post('/alternatif/edit', [ALternativeController::class, 'updateAlternatif']);
 Route::delete('/alternatif/{kode}', [AlternativeController::class, 'destroy']);
 
-Route::get('/subKriteria', [KriteriaController::class, 'indexSub'])->name('subKriteria');
-Route::post('/subKriteria/tambah/{i}', [KriteriaController::class, 'tambahSub'])->name('tambahSub');
-Route::get('/subKriteria/edit/{id}', [KriteriaController::class, 'editsubKriteria']);
-Route::post('/subKriteria/update', [KriteriaController::class, 'updateSubKriteria']);
-Route::delete('/subKriteria/{id}', [KriteriaController::class, 'destroySub']);
-
+Route::get('/surat/pengajuan', [SuratController::class, 'index'])->name('surat');
+Route::get('/validasi', [SuratController::class, 'indexValidasi'])->name('suratValidasi');
+Route::post('/pengajuan/tambah', [SuratController::class, 'submitRequest']);
+Route::get('/pengajuan/edit/{kode}', [SuratController::class, 'editPengajuan']);
+Route::post('/pengajuan/edit', [SuratController::class, 'updatePengajuan']);
+Route::delete('/pengajuan/{kode}', [SuratController::class, 'destroy']);
+Route::get('/partial/modal/decline/{kode}', [SuratController::class, 'modalDecline'])->name('modalDecline');
+Route::post('/save/notes/{kode}', [SuratController::class, 'submitModalDecline'])->name('submitDecline');
+Route::post('/validate/pengajuan/{kode}', [SuratController::class, 'validasiPengajuan'])->name('validateSPK');
 
 // Route::get('/penilaian', [PenilaianController::class, 'index']);
 Route::post('/penilaian/tambah', [PenilaianController::class, 'tambahPenilaian']);
