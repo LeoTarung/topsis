@@ -23,4 +23,19 @@ class User extends Authenticatable
         'password',
         'role'
     ];
+
+    public function isSparePart()
+    {
+        return $this->role === 'SPARE PART';
+    }
+
+    public function isServiceManager()
+    {
+        return $this->role === 'SERVICE MANAGER';
+    }
+
+    public function isHeadOffice()
+    {
+        return $this->role === 'HEAD OFFICE';
+    }
 }

@@ -12,8 +12,8 @@ class PenilaianModel extends Model
     protected $table = 'db_penilaian';
     protected $guarded = [];
 
-    public function sub()
-    {
-        return $this->belongsTo(subKriteriaModel::class, 'sub_kriteria', 'id');
-    }
+    // public function sub()
+    // {
+    //     return $this->belongsTo(subKriteriaModel::class, 'sub_kriteria', 'id');
+    // }
 }

@@ -49,9 +49,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1; ?>
+                            @php
+                                $no = 1;
+                            @endphp
+
                             @foreach ($data as $a)
-                                <tr>x
+                                <tr>
                                     <th scope="row"><?= $no ?></th>
                                     <td>{{ $a->kode_alternatif }}</td>
                                     <td>{{ $a->produk->nama_vendor }}</td>
@@ -152,7 +155,7 @@
                                         onchange="produk()">
                                         <option selected id="optionCore"> </option>
                                         @foreach ($produk as $key)
-                                            <option value="{{ $key->kode_produk }}">{{ $key->nama_produk }}</option>
+                                            <option value="{{ $key->kode_produk }}">{{ $key->kode_produk }}</option>
                                         @endforeach
                                     </select>
                                 </div>
