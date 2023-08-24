@@ -7,6 +7,10 @@
                 <div class="col-6">
                     <h2 class=" d-flex justify-content-start">Perhitungan Topsis</h4>
                 </div>
+                <div class="col-6 d-flex  justify-content-end h-50">
+                    <button class="btn btn-info mt-2" data-bs-toggle="modal" data-bs-target="#ModalTerpilih"><i
+                            class="fas fa-eye"></i> Hasil</h4>
+                </div>
             </div>
         </div>
 
@@ -21,7 +25,7 @@
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col">Nama Supplier</th>
-                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Kode Produk</th>
                                 @for ($k = 0; $k < $kriteriaCount; $k++)
                                     <th scope="col">{{ $kriteria[$k] }}</th>
                                 @endfor
@@ -63,7 +67,7 @@
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col">Nama Supplier</th>
-                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Kode Produk</th>
                                 @for ($k = 0; $k < $kriteriaCount; $k++)
                                     <th scope="col">{{ $kriteria[$k] }}</th>
                                 @endfor
@@ -97,7 +101,7 @@
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col">Nama Supplier</th>
-                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Kode Produk</th>
                                 @for ($k = 0; $k < $kriteriaCount; $k++)
                                     <th scope="col">{{ $kriteria[$k] }}</th>
                                 @endfor
@@ -139,13 +143,13 @@
                             <tr>
                                 <td>Maximal</td>
                                 @for ($i = 0; $i < $kriteriaCount; $i++)
-                                    <td>{{ $max[$i] }}</td>
+                                    <td>{{ number_format($max[$i], 2) }}</td>
                                 @endfor
                             </tr>
                             <tr>
                                 <td>Minimal</td>
                                 @for ($j = 0; $j < $kriteriaCount; $j++)
-                                    <td>{{ $min[$j] }}</td>
+                                    <td>{{ number_format($min[$j], 2) }}</td>
                                 @endfor
                             </tr>
                         </tbody>
@@ -164,7 +168,7 @@
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col">Nama Supplier</th>
-                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Kode Produk</th>
                                 <th>D+</th>
                                 <th>D-</th>
                             </tr>
@@ -174,8 +178,8 @@
                                 <tr>
                                     <td>{{ $alternatif[$a] }}</td>
                                     <td>{{ $alternatifProduk[$a] }}</td>
-                                    <td>{{ $D_plus[$i] }}</td>
-                                    <td>{{ $D_min[$i] }}</td>
+                                    <td>{{ number_format($D_plus[$a], 2) }}</td>
+                                    <td>{{ number_format($D_min[$a], 2) }}</td>
                                 </tr>
                             @endfor
                         </tbody>
@@ -293,7 +297,7 @@
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col">Nama Supplier</th>
-                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Kode Produk</th>
                                 <th>Nilai Qi</th>
                             </tr>
                         </thead>
@@ -310,8 +314,70 @@
                 </div>
             </div>
         </div>
+
+        <div class="container-fluid d-flex justify-content-center mt-3">
+            <div class="card shadow-sm w-100">
+                <div class="card-header bg-primary" style="color:wheat">
+                    <i class="fa fa-users"></i></i>Supplier Terpilih
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table m-2 ">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Nama Supplier</th>
+                                <th scope="col">Kode Produk</th>
+                                <th>Nilai Qi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ $rank[0]['Supplier'] }}</td>
+                                <td>{{ $rank[0]['Produk'] }}</td>
+                                <td>{{ $rank[0]['Nilai'] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="modal fade" id="ModalTerpilih" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title fs-6" id="ModalDeclineLabel">Hasil Perhitungan</h3>
+                    <button type="button" class="btn-close btn-danger" data-bs-dismiss="modal"
+                        aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <div id="page" class="p-2">
+                        <table class="table m-2 ">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th scope="col" class="text-center">Nama Supplier</th>
+                                    <th scope="col" class="text-center">Kode Produk</th>
+                                    <th class="text-center">Nilai Qi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">{{ $rank[0]['Supplier'] }}</td>
+                                    <td class="text-center">{{ $rank[0]['Produk'] }}</td>
+                                    <td class="text-center">{{ $rank[0]['Nilai'] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script></script>
 @endsection

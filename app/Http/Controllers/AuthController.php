@@ -21,25 +21,22 @@ class AuthController extends Controller
     public function Login(Request $request)
     {
 
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $request->only('email', 'password');
 
-        // if ($credentials->fails()) {
-        //     return redirect('/login')
-        //         ->withErrors($credentials)
-        //         ->withInput();
-        // }
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            //jika user
-            return redirect()->intended('/');
+        // Retrieve the user by the provided email
+        $user = User::where('email', $credentials['email'])->first();
+
+        // Check if the user exists and the provided password matches
+        if ($user && $user->password === $credentials['password']) {
+            // User is authenticated, log them in
+            // Note: This is NOT secure in production. Use proper password encryption like bcrypt.
+            auth()->login($user);
+
+            // Redirect the user to the desired location after login
+            return redirect('/');
         } else {
-            return back()->withErrors([
-                'email' => 'Email tidak sesuai',
-                'password' => 'password tidak sesuai',
-            ]);
+            // Authentication failed, redirect back to the login page with an error message.
+            return redirect()->route('login')->with('error', 'Invalid email or password.');
         }
     }
 

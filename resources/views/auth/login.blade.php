@@ -75,10 +75,10 @@
 <body class="login">
     <section class="vh-100">
         <div
-            class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-3 px-3 px-xl-5 bg-standard header">
+            class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-3 px-3 px-xl-5 bg-dark header">
 
             <div class="text-sidebar text-center fw-bold mb-3 mb-md-0">
-                <img src="/img/logo.png" class="img-fluid fluline" alt="Sample image">
+                <img src="/logo.png" class="img-fluid fluline" alt="Sample image">
             </div>
         </div>
 
@@ -128,14 +128,14 @@
                                     Remember me
                                 </label>
                             </div>
-                            <a href="forgot-password" class="text-body">Lupa Password?</a>
+                            {{-- <a href="forgot-password" class="text-body">Lupa Password?</a> --}}
                         </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" class="btn-login border-0 rounded"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem; margin-top: -1rem;">Login</button>
-                            <p class="small fw-bold mt-2 pt-1 mb-0">Belum punya akun? <a href="/daftar"
-                                    class="daftar">Daftar</a></p>
+                            {{-- <p class="small fw-bold mt-2 pt-1 mb-0">Belum punya akun? <a href="/daftar"
+                                    class="daftar">Daftar</a></p> --}}
                         </div>
 
                     </form>

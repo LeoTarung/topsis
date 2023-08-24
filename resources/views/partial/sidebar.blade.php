@@ -133,7 +133,7 @@
             <a href="/validasi">Validasi</a>
         </li>
         <li>
-            <a href="/laporan">Laporan</a>
+            {{-- <a href="/laporan">Laporan</a> --}}
         </li>
     </ul>
 
