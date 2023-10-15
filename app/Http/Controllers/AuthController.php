@@ -33,7 +33,14 @@ class AuthController extends Controller
             auth()->login($user);
 
             // Redirect the user to the desired location after login
-            return redirect('/');
+            if (Auth::user()->role == 'HEAD OFFICE') {
+                return redirect('/validasi');
+            }
+            else{
+                return redirect('/');
+            }
+
+
         } else {
             // Authentication failed, redirect back to the login page with an error message.
             return redirect()->route('login')->with('error', 'Invalid email or password.');
@@ -119,4 +126,10 @@ class AuthController extends Controller
     {
         $request->validate(['email' => 'required|email']);
     }
+
+    public function index()
+    {
+        return view('auth.login');
+    }
+
 }

@@ -24,10 +24,10 @@
         </div>
         <div class="container-fluid mt-3 border-bottom">
             <div class="row ms-3 ">
-                <div class="col-6 text-center " onclick="menu(1)">
+                <div class="col-6 text-center " onclick="menu(1)" type="button">
                     <h5>Daftar Data Alternatif</h5>
                 </div>
-                <div class="col-6 border-left text-center " onclick="menu(2)">
+                <div class="col-6 border-left text-center " type="button" onclick="menu(2)">
                     <h5>Penilaian</h5>
                 </div>
             </div>

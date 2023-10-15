@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\KriteriaModel;
+use App\Models\ProdukModel;
 use App\Models\subKriteriaModel;
+use App\Models\DbRequestModel;
 use Illuminate\Http\Request;
 
 class KriteriaController extends Controller
@@ -19,9 +21,11 @@ class KriteriaController extends Controller
 
     public function home()
     {
-
+        $produk = ProdukModel::all();
+        $request = DbRequestModel::all();
+        $countValidasi = DbRequestModel::whereNotNull('validasi')->count();
         // dd($data);
-        return view('home');
+        return view('home', compact('produk','request','countValidasi'));
     }
 
 
